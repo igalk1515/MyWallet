@@ -1,0 +1,51 @@
+.wallet {
+  display: grid;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  height: 20vh;
+  width: 100vw;
+  text-decoration: none;
+}
+
+a {
+  text-decoration: none;
+}
+
+.wallet button {
+  margin: 0.5rem;
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+  font-size: 1rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.expense-btn {
+  background-color: rgb(239, 243, 31);
+}
+
+.expense-btn:hover {
+  background-color: red;
+  cursor: pointer;
+}
+
+.income-btn {
+  background-color: rgb(56, 192, 14);
+}
+
+.income-btn:hover {
+  background-color: red;
+  cursor: pointer;
+}
+
+.summarry-btn {
+  background-color: rgb(63, 31, 243);
+}
+
+.summarry-btn:hover {
+  background-color: red;
+  cursor: pointer;
+}

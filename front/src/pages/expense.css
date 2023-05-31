@@ -1,0 +1,17 @@
+.expense-form {
+  display: grid;
+  justify-content: center;
+}
+
+#name {
+  width: 100%;
+}
+
+.expense-form label {
+  text-align: center;
+}
+
+.expense-form > * {
+  align-items: center;
+  justify-content: center;
+}
