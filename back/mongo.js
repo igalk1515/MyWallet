@@ -1,28 +1,29 @@
-const { MongoClient, ServerApiVersion } = require('mongodb')
+const { MongoClient, ServerApiVersion } = require('mongodb');
+require('dotenv').config();
+const connectionString = process.env.MONGODB_CONNECTION_STRING;
 
 class mongodb {
   constructor() {
-    this.uri =
-      'mongodb+srv://igal:asdf@wallet.oxq6vyx.mongodb.net/?retryWrites=true&w=majority'
+    this.uri = connectionString;
     this.client = new MongoClient(this.uri, {
       useNewUrlParser: true,
       useUnifiedTopology: true,
       serverApi: ServerApiVersion.v1,
-    })
+    });
   }
   async connect() {
-    await this.client.connect()
+    await this.client.connect();
   }
   async close() {
-    await this.client.close()
+    await this.client.close();
   }
   async post(col, data) {
-    const collection = this.client.db('Wallet').collection(col)
-    await collection.insertOne(data)
+    const collection = this.client.db('Wallet').collection(col);
+    await collection.insertOne(data);
   }
-  async get(col) {
-    return this.client.db('Wallet').collection(col)
+  getCollection(col) {
+    return this.client.db('Wallet').collection(col);
   }
 }
 
-module.exports = mongodb
+module.exports = mongodb;

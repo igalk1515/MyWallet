@@ -4,30 +4,40 @@ import { BackendApi } from '../BackendApi';
 export class Expense extends React.Component {
   api = null;
 
-  expenseState = {
-    name: '',
-    date: new Date(),
-    price: '',
-    message: '',
+  state = {
+    name: String,
+    date: Date,
+    price: Number,
+    message: String,
   };
 
   constructor(props) {
     super(props);
     this.api = new BackendApi();
+    this.state = {
+      name: '',
+      date: new Date(),
+      price: 0,
+      message: '',
+    };
   }
 
   submit = async (e) => {
     e.preventDefault();
-    console.log('submit');
     await this.api
       .post('/expense', {
-        name: document.getElementById('name').value,
-        date: document.getElementById('date').value,
-        price: document.getElementById('price').value,
-        message: document.getElementById('message').value,
+        name: this.state.name,
+        date: this.state.date,
+        price: Number(this.state.price),
+        message: this.state.message,
       })
       .then((res) => {
-        console.log('res');
+        this.setState({
+          name: '',
+          date: new Date(),
+          price: 0,
+          message: '',
+        });
       });
   };
 
@@ -35,11 +45,29 @@ export class Expense extends React.Component {
     return (
       <form className="expense-form" method="POST">
         <label htmlFor="name">כותרת</label>
-        <input type="text" id="name" name="name" />
+        <input
+          type="text"
+          id="name"
+          name="name"
+          value={this.state.name}
+          onChange={(e) => this.setState({ name: e.target.value })}
+        />
         <label htmlFor="date">תאריך:</label>
-        <input id="date" type="date" name="date" />
+        <input
+          id="date"
+          type="date"
+          name="date"
+          value={new Date(this.state.date).toISOString().split('T')[0]}
+          onChange={(e) => this.setState({ date: e.target.value })}
+        />
         <label htmlFor="price">מחיר</label>
-        <input type="number" id="price" name="price" />
+        <input
+          type="number"
+          id="price"
+          name="price"
+          value={this.state.price}
+          onChange={(e) => this.setState({ price: e.target.value })}
+        />
         <label htmlFor="message">הערות:</label>
         <textarea id="message" name="message"></textarea>
         <button
