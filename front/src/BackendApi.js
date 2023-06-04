@@ -10,8 +10,7 @@ export class BackendApi {
     return response.data;
   }
   async post(url, data) {
-    console.log('post', url, data);
-    const response = await this.api.post(url, data);
+    const response = await this.api.post(url, data, { withCredentials: true });
     return response.data;
   }
   async getSummary(month) {
@@ -19,6 +18,7 @@ export class BackendApi {
       params: {
         month: month.toString(),
       },
+      withCredentials: true,
     });
     return response.data;
   }

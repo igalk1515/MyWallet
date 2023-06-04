@@ -13,7 +13,6 @@ const port = 8001 || process.env.PORT;
 summary = new Summary(DB);
 async function fetchData() {
   const data = await summary.getByMonths(6);
-  console.log(data);
 }
 
 fetchData();

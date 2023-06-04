@@ -1,4 +1,6 @@
 const { MongoClient, ServerApiVersion } = require('mongodb');
+const bcrypt = require('bcrypt');
+
 require('dotenv').config();
 const connectionString = process.env.MONGODB_CONNECTION_STRING;
 
@@ -23,6 +25,21 @@ class mongodb {
   }
   getCollection(col) {
     return this.client.db('Wallet').collection(col);
+  }
+  async addUser(userName, password, id) {
+    const collection = this.client.db('Wallet').collection('users');
+    const hash = await bcrypt.hash(password, 10);
+    const response = await collection.insertOne({
+      userName,
+      password: hash,
+      _id: id,
+    });
+    return response;
+  }
+  async getUser(userName) {
+    const collection = this.client.db('Wallet').collection('users');
+    const user = await collection.findOne({ userName });
+    return user;
   }
 }
 

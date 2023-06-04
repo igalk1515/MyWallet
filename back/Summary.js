@@ -3,22 +3,21 @@ class Summary {
     this.db = db;
   }
 
-  async getByMonths(month) {
+  async getByMonths(userId, month) {
     const collection = this.db.getCollection('expense');
     const pipeline = [
       {
-        $addFields: {
-          convertedDate: {
-            $dateFromString: {
-              dateString: '$date',
-            },
-          },
-        },
-      },
-      {
         $match: {
           $expr: {
-            $eq: [{ $month: '$convertedDate' }, month],
+            $and: [
+              {
+                $eq: [
+                  { $month: { $dateFromString: { dateString: '$date' } } },
+                  month,
+                ],
+              },
+              { $eq: ['$userId', userId] },
+            ],
           },
         },
       },
@@ -26,7 +25,7 @@ class Summary {
         $group: {
           _id: null,
           total: { $sum: '$price' },
-          documents: { $push: '$$ROOT' }, // Add this stage to accumulate the documents
+          documents: { $push: '$$ROOT' },
         },
       },
     ];

@@ -1,6 +1,6 @@
-import React from 'react'
-import { Route, Link } from 'react-router-dom'
-import './HomePage.css'
+import React from 'react';
+import { Route, Link } from 'react-router-dom';
+import './HomePage.css';
 
 export class HomePage extends React.Component {
   render() {
@@ -23,8 +23,13 @@ export class HomePage extends React.Component {
               <button className="summarry-btn">סיכום</button>
             </Link>
           </div>
+          <div className="register">
+            <Link to="/register">
+              <button className="register-btn">הרשמה</button>
+            </Link>
+          </div>
         </div>
       </div>
-    )
+    );
   }
 }

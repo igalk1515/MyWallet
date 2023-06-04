@@ -1,10 +1,10 @@
 class Expense {
   constructor(db) {
-    this.db = db
+    this.db = db;
   }
   insertOne(data) {
-    this.db.post('expense', data)
+    this.db.post('expense', data);
   }
 }
 
-module.exports = Expense
+module.exports = Expense;

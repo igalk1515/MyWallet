@@ -10,8 +10,6 @@ export class Summary extends React.Component {
   async componentDidMount() {
     const data = await this.api.getSummary('6');
     this.setState({ data });
-    console.log('data');
-    console.log(data);
   }
   render() {
     return (
