@@ -13,7 +13,7 @@ const app = express();
 const port = 8001 || process.env.PORT;
 
 const corsOptions = {
-  origin: 'http://localhost:3000',
+  origin: process.env.FRONTEND_URL,
   credentials: true,
 };
 
@@ -25,7 +25,7 @@ app.use(cookieParser());
 function authenticate(req, res, next) {
   const token = req.cookies.jwt; // Get the token from the cookie
   if (!token) {
-    res.status(401).send('Unauthorized');
+    res.status(401).send('user not signed in');
     return;
   }
 
@@ -34,12 +34,13 @@ function authenticate(req, res, next) {
     req.user = decoded;
     next();
   } catch (error) {
-    res.status(401).send('Unauthorized');
+    res.status(500).send('could not authenticate');
   }
 }
 
 app.listen(port || process.env.PORT, () => {
   console.log(`Listening on port ${port}`);
+  console.log(`the FRONTEND_URL is ${process.env.FRONTEND_URL}`);
 });
 
 app.post('/expense', authenticate, (req, res) => {
@@ -75,6 +76,11 @@ app.post('/register', async (req, res) => {
     { userName, userId: id },
     process.env.ACCESS_TOKEN_SECRET
   );
-  res.cookie('jwt', accessToken);
+  res.cookie('jwt', accessToken, {
+    httpOnly: true,
+    secure: true,
+    sameSite: 'none',
+  });
+
   res.send({ state: 'ok', token: accessToken });
 });

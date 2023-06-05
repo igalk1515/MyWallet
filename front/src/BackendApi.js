@@ -1,12 +1,14 @@
 import axios from 'axios';
 export class BackendApi {
-  constructor(url = 'http://localhost:8001') {
+  constructor() {
+    const url = process.env.REACT_APP_API_URL;
+    console.log(url);
     this.api = axios.create({
       baseURL: url,
     });
   }
   async get(url) {
-    const response = await this.api.get(url);
+    const response = await this.api.get(url, { withCredentials: true });
     return response.data;
   }
   async post(url, data) {
