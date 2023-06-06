@@ -9,6 +9,7 @@ export class Expense extends React.Component {
     date: Date,
     price: Number,
     message: String,
+    PaymentMethod: 'אשראי' || 'מזומן' || 'דירקט',
   };
 
   constructor(props) {
@@ -19,6 +20,7 @@ export class Expense extends React.Component {
       date: new Date(),
       price: 0,
       message: '',
+      paymentMethod: ['אשראי'],
     };
   }
 
@@ -37,6 +39,7 @@ export class Expense extends React.Component {
           date: new Date(),
           price: 0,
           message: '',
+          paymentMethod: 'אשראי',
         });
       });
   };
@@ -68,6 +71,17 @@ export class Expense extends React.Component {
           value={this.state.price}
           onChange={(e) => this.setState({ price: e.target.value })}
         />
+        <label htmlFor="paymentMethod">אמצעי תשלום</label>
+        <select
+          id="paymentMethod"
+          name="paymentMethod"
+          value={this.state.paymentMethod}
+          onChange={(e) => this.setState({ paymentMethod: e.target.value })}
+        >
+          <option value="אשראי">אשראי</option>
+          <option value="דירקט">דירקט</option>
+          <option value="מזומן">מזומן</option>
+        </select>
         <label htmlFor="message">הערות:</label>
         <textarea id="message" name="message"></textarea>
         <button
