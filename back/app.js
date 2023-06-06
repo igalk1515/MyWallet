@@ -4,6 +4,7 @@ const cors = require('cors');
 const cookieParser = require('cookie-parser');
 const jwt = require('jsonwebtoken');
 const bodyParser = require('body-parser');
+const bcrypt = require('bcrypt');
 const expnse = require('./expense.js');
 const Summary = require('./Summary.js');
 const { ObjectId } = require('mongodb');
@@ -23,7 +24,7 @@ app.use(cookieParser());
 
 // Authentication middleware
 function authenticate(req, res, next) {
-  const token = req.cookies.jwt; // Get the token from the cookie
+  const token = req.cookies.jwt;
   if (!token) {
     res.status(401).send('user not signed in');
     return;
@@ -62,9 +63,37 @@ app.get('/summary', authenticate, async (req, res) => {
   res.send(data);
 });
 
+app.get('/login', async (req, res) => {
+  const userName = req.query.userName;
+  const password = req.query.password;
+  console.log(userName, password);
+  const user = await DB.getUser(userName);
+  if (!user) {
+    res.status(400).send('user not found');
+    return;
+  }
+  const match = await bcrypt.compare(password, user.password);
+  console.log(match);
+  if (!match) {
+    res.status(400).send('wrong password');
+    return;
+  }
+  const accessToken = jwt.sign(
+    { userName, userId: user._id },
+    process.env.ACCESS_TOKEN_SECRET
+  );
+  res.cookie('jwt', accessToken, {
+    httpOnly: true,
+    secure: true,
+    sameSite: 'none',
+  });
+  res.send({ state: 'ok', token: accessToken });
+});
+
 app.post('/register', async (req, res) => {
   const userName = req.body.userName;
   const password = req.body.password;
+  console.log(userName, password);
   const user = await DB.getUser(userName);
   if (user) {
     res.status(400).send('user already exists');

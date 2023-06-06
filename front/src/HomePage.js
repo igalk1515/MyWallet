@@ -28,6 +28,11 @@ export class HomePage extends React.Component {
               <button className="register-btn">הרשמה</button>
             </Link>
           </div>
+          <div className="login">
+            <Link to="/login">
+              <button className="login-btn">התחברות</button>
+            </Link>
+          </div>
         </div>
       </div>
     );

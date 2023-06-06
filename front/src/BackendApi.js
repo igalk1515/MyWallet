@@ -7,8 +7,11 @@ export class BackendApi {
       baseURL: url,
     });
   }
-  async get(url) {
-    const response = await this.api.get(url, { withCredentials: true });
+  async get(url, body) {
+    const response = await this.api.get(url, {
+      params: body,
+      withCredentials: true,
+    });
     return response.data;
   }
   async post(url, data) {
