@@ -14,7 +14,7 @@ export class HomePage extends React.Component {
             <button className="expense-btn">הוצאה</button>
           </Link>
           <div className="income">
-            <Link to="/income">
+            <Link to="Income">
               <button className="income-btn">הכנסה</button>
             </Link>
           </div>

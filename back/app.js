@@ -7,6 +7,7 @@ const bodyParser = require('body-parser');
 const bcrypt = require('bcrypt');
 const expnse = require('./expense.js');
 const Summary = require('./Summary.js');
+const Income = require('./Income.js');
 const { ObjectId } = require('mongodb');
 
 const DB = new mongodb();
@@ -112,4 +113,11 @@ app.post('/register', async (req, res) => {
   });
 
   res.send({ state: 'ok', token: accessToken });
+});
+
+app.post('/income', (req, res) => {
+  const data = req.body;
+  const income = new Income(DB);
+  income.insertOne(data);
+  res.send('ok');
 });

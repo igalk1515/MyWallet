@@ -5,6 +5,7 @@ import { HomePage } from './HomePage';
 import { Summary } from './pages/Summary';
 import { Register } from './pages/Register';
 import { Login } from './pages/Login';
+import { Income } from './pages/Income';
 
 function App() {
   let userName = '';
@@ -26,6 +27,7 @@ function App() {
           <Route path="/Summary" element={<Summary />} />
           <Route path="/register" element={<Register />} />
           <Route path="/login" element={<Login />} />
+          <Route path="/income" element={<Income />} />
         </Routes>
       </header>
     </div>
