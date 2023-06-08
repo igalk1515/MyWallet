@@ -9,3 +9,8 @@ table td {
 h1 {
   text-align: center;
 }
+
+th:hover {
+  cursor: pointer;
+  background-color: #eee;
+}

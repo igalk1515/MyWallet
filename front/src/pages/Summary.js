@@ -2,6 +2,7 @@ import React from 'react';
 import './summary.css';
 import { BackendApi } from '../BackendApi';
 import { PieChart } from '../charts/PieChart';
+import { SummaryTable } from '../tables/SummaryTable';
 
 export class Summary extends React.Component {
   state = {
@@ -16,6 +17,7 @@ export class Summary extends React.Component {
   async componentDidMount() {
     const data = await this.api.getSummary('6');
     this.setState({ data });
+    this.forceUpdate();
   }
   render() {
     const mapNames = new Map();
@@ -43,28 +45,7 @@ export class Summary extends React.Component {
             />
           </div>
         )}
-        <table>
-          <thead>
-            <tr>
-              <th>תאריך</th>
-              <th>סוג</th>
-              <th>מחיר</th>
-              <th>סוג תשלום</th>
-              <th>הערות</th>
-            </tr>
-          </thead>
-          <tbody>
-            {this.state?.data?.documents?.map((item, index) => (
-              <tr key={index}>
-                <td>{item.date.split('T')[0]}</td>
-                <td>{item.name}</td>
-                <td>{item.price}</td>
-                <td>{item.paymentMethod}</td>
-                <td>{item.message}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+        <SummaryTable expenses={this.state?.data?.documents} />
       </div>
     );
   }
