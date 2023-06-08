@@ -20,7 +20,7 @@ export class Expense extends React.Component {
       date: new Date(),
       price: 0,
       message: '',
-      paymentMethod: ['אשראי'],
+      paymentMethod: 'אשראי',
     };
   }
 
@@ -31,6 +31,7 @@ export class Expense extends React.Component {
         name: this.state.name,
         date: this.state.date,
         price: Number(this.state.price),
+        paymentMethod: this.state.paymentMethod,
         message: this.state.message,
       })
       .then((res) => {
@@ -40,6 +41,7 @@ export class Expense extends React.Component {
           price: 0,
           message: '',
           paymentMethod: 'אשראי',
+          message: '',
         });
       });
   };
@@ -83,7 +85,11 @@ export class Expense extends React.Component {
           <option value="מזומן">מזומן</option>
         </select>
         <label htmlFor="message">הערות:</label>
-        <textarea id="message" name="message"></textarea>
+        <textarea
+          id="message"
+          name="message"
+          onChange={(e) => this.setState({ message: e.target.value })}
+        ></textarea>
         <button
           type="submit"
           onClick={(e) => {

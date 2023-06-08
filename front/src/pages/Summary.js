@@ -49,6 +49,7 @@ export class Summary extends React.Component {
               <th>תאריך</th>
               <th>סוג</th>
               <th>מחיר</th>
+              <th>סוג תשלום</th>
               <th>הערות</th>
             </tr>
           </thead>
@@ -58,6 +59,7 @@ export class Summary extends React.Component {
                 <td>{item.date.split('T')[0]}</td>
                 <td>{item.name}</td>
                 <td>{item.price}</td>
+                <td>{item.paymentMethod}</td>
                 <td>{item.message}</td>
               </tr>
             ))}
