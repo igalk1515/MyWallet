@@ -6,12 +6,12 @@ export class SummaryTable extends React.Component {
     this.state = {
       data: null,
       showLabel: null,
-      direction: null,
+      direction: false,
       keySort: null,
     };
   }
 
-  componentDidMount() {
+  async componentDidMount() {
     this.setState({ data: this.props.expenses });
     this.forceUpdate();
   }
@@ -30,6 +30,7 @@ export class SummaryTable extends React.Component {
       sortedData.reverse();
     }
     this.setState({ data: sortedData });
+    this.forceUpdate();
   }
 
   render() {
