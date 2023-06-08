@@ -24,7 +24,7 @@ export class Register extends React.Component {
       })
       .then((res) => {
         Cookies.set('jwt', res.token, { expires: 7 });
-        window.location.href = '/';
+        window.location.href = '/home';
       })
       .catch((err) => {});
   }
