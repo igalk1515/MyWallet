@@ -4,16 +4,18 @@ export class SummaryTable extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      data: null,
+      data: props.expenses,
       showLabel: null,
       direction: false,
       keySort: null,
     };
   }
 
-  async componentDidMount() {
-    this.setState({ data: this.props.expenses });
-    this.forceUpdate();
+  componentDidUpdate(prevProps) {
+    // Check if expenses have changed
+    if (this.props.expenses !== prevProps.expenses) {
+      this.setState({ data: this.props.expenses });
+    }
   }
 
   sortTable(key) {
@@ -30,7 +32,6 @@ export class SummaryTable extends React.Component {
       sortedData.reverse();
     }
     this.setState({ data: sortedData });
-    this.forceUpdate();
   }
 
   render() {
@@ -47,12 +48,22 @@ export class SummaryTable extends React.Component {
         </thead>
         <tbody>
           {this.state.data?.map((item, index) => (
-            <tr key={index}>
+            <tr key={item._id}>
               <td>{item.date.split('T')[0]}</td>
               <td>{item.name}</td>
               <td>{item.price}</td>
               <td>{item.paymentMethod}</td>
               <td>{item.message}</td>
+              <td>
+                <button
+                  className="edit-btn"
+                  onClick={() => {
+                    this.props.editExpense(item);
+                  }}
+                >
+                  עריכה
+                </button>
+              </td>
             </tr>
           ))}
         </tbody>

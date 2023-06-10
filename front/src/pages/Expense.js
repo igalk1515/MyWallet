@@ -15,13 +15,24 @@ export class Expense extends React.Component {
   constructor(props) {
     super(props);
     this.api = new BackendApi();
-    this.state = {
-      name: '',
-      date: new Date(),
-      price: 0,
-      message: '',
-      paymentMethod: 'אשראי',
-    };
+    if (props.editItem) {
+      this.state = {
+        name: props.editItem.name,
+        date: props.editItem.date,
+        price: props.editItem.price,
+        message: props.editItem.message,
+        paymentMethod: props.editItem.paymentMethod,
+        _id: props.editItem._id,
+      };
+    } else {
+      this.state = {
+        name: '',
+        date: new Date(),
+        price: 0,
+        message: '',
+        paymentMethod: 'אשראי',
+      };
+    }
   }
 
   submit = async (e) => {
@@ -33,16 +44,21 @@ export class Expense extends React.Component {
         price: Number(this.state.price),
         paymentMethod: this.state.paymentMethod,
         message: this.state.message,
+        _id: this.state._id || null,
       })
       .then((res) => {
-        this.setState({
-          name: '',
-          date: new Date(),
-          price: 0,
-          message: '',
-          paymentMethod: 'אשראי',
-          message: '',
-        });
+        if (this.props.onSave) {
+          this.props.onSave();
+        } else {
+          this.setState({
+            name: '',
+            date: new Date(),
+            price: 0,
+            message: '',
+            paymentMethod: 'אשראי',
+            message: '',
+          });
+        }
       });
   };
 

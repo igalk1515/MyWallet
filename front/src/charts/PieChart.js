@@ -1,6 +1,7 @@
 import React from 'react';
 import { Chart, ArcElement, Tooltip, Title, Legend } from 'chart.js';
 import { Pie } from 'react-chartjs-2';
+import './pieChart.css';
 
 Chart.register(ArcElement, Tooltip, Title, Legend);
 
@@ -20,7 +21,6 @@ export class PieChart extends React.Component {
     if (chartElements.length > 0) {
       const { index } = chartElements[0];
       const label = this.data.labels[index];
-      console.log(label);
       this.props.handleSliceClick(event, label);
     }
   };

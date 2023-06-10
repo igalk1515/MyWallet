@@ -23,7 +23,6 @@ app.use(cors(corsOptions));
 app.use(express.json());
 app.use(cookieParser());
 
-// Authentication middleware
 function authenticate(req, res, next) {
   const token = req.cookies.jwt;
   if (!token) {
@@ -51,7 +50,11 @@ app.post('/expense', authenticate, (req, res) => {
     ...req.body,
     userId: req.user.userId,
   };
-  expense.insertOne(data);
+  if (data._id) {
+    expense.updateOne(data);
+  } else {
+    expense.insertOne(data);
+  }
   res.send('ok');
 });
 
@@ -67,14 +70,12 @@ app.get('/summary', authenticate, async (req, res) => {
 app.get('/login', async (req, res) => {
   const userName = req.query.userName;
   const password = req.query.password;
-  console.log(userName, password);
   const user = await DB.getUser(userName);
   if (!user) {
     res.status(400).send('user not found');
     return;
   }
   const match = await bcrypt.compare(password, user.password);
-  console.log(match);
   if (!match) {
     res.status(400).send('wrong password');
     return;
@@ -94,7 +95,6 @@ app.get('/login', async (req, res) => {
 app.post('/register', async (req, res) => {
   const userName = req.body.userName;
   const password = req.body.password;
-  console.log(userName, password);
   const user = await DB.getUser(userName);
   if (user) {
     res.status(400).send('user already exists');

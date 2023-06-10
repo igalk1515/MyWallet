@@ -2,7 +2,6 @@ import axios from 'axios';
 export class BackendApi {
   constructor() {
     const url = process.env.REACT_APP_API_URL;
-    console.log(url);
     this.api = axios.create({
       baseURL: url,
     });

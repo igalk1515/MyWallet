@@ -3,6 +3,7 @@ import './summary.css';
 import { BackendApi } from '../BackendApi';
 import { PieChart } from '../charts/PieChart';
 import { SummaryTable } from '../tables/SummaryTable';
+import { Expense } from './Expense';
 
 export class Summary extends React.Component {
   month = [
@@ -22,7 +23,9 @@ export class Summary extends React.Component {
   state = {
     data: null,
     showLabel: null,
-    isReady: null,
+    isReady: false,
+    isOverlay: false,
+    editItem: null,
   };
   constructor(props) {
     super(props);
@@ -30,31 +33,40 @@ export class Summary extends React.Component {
   }
 
   async componentDidMount() {
-    const data = await this.api.getSummary('6');
-    this.setState({ data, isReady: true });
-    this.forceUpdate();
+    await this.fetchData();
   }
-  render() {
-    console.log('this.state.isReady', this.state.isReady);
-    const mapNames = new Map();
-    this.state?.data?.documents?.forEach((item) => {
-      if (mapNames.has(item.name)) {
-        mapNames.set(item.name, mapNames.get(item.name) + item.price);
+
+  async editExpense(item) {
+    this.setState({ isOverlay: true, editItem: item });
+  }
+
+  async fetchData() {
+    const data = await this.api.getSummary(new Date().getMonth() + 1);
+    const mapExpenses = new Map();
+    data?.documents?.forEach((item) => {
+      if (mapExpenses.has(item.name)) {
+        mapExpenses.set(item.name, mapExpenses.get(item.name) + item.price);
       } else {
-        mapNames.set(item.name, item.price);
+        mapExpenses.set(item.name, item.price);
       }
     });
+    this.setState({ data, isReady: true, mapExpenses });
+  }
 
+  render() {
+    const h2Message =
+      this.state?.data?.total > 0 ? 'סה"כ הוצאות לחודש ' : 'אין הוצאות לחודש ';
+    const mapNames = this.state.mapExpenses;
     return (
       <div className="expense-form">
         <h1>סיכום</h1>
         <div className="Table-summary">
           <h2 className="total">
-            סה"כ הוצאות לחודש {this.month[new Date().getMonth()]}:{' '}
+            {h2Message + this.month[new Date().getMonth()]}:{' '}
             {this.state?.data?.total}
           </h2>
         </div>
-        {!this.state.showLabel && mapNames.size > 0 && (
+        {!this.state.showLabel && mapNames?.size > 0 && (
           <div className="pie-chart">
             <PieChart
               mapNames={mapNames}
@@ -64,10 +76,31 @@ export class Summary extends React.Component {
             />
           </div>
         )}
+        {this.state.isOverlay && (
+          <div className="overlay">
+            <div className="overlay-content">
+              <button onClick={() => this.setState({ isOverlay: false })} />
+              <Expense
+                editItem={this.state.editItem}
+                closeOverlay={() => {
+                  this.setState({ isOverlay: false, editItem: null });
+                }}
+                onSave={async () => {
+                  this.setState({ isOverlay: false, editItem: null });
+                  await this.fetchData();
+                }}
+              />
+            </div>
+          </div>
+        )}
+
         {this.state.isReady ? (
-          <SummaryTable expenses={this.state?.data?.documents} />
+          <SummaryTable
+            expenses={this.state?.data?.documents}
+            editExpense={this.editExpense.bind(this)}
+          />
         ) : (
-          <div class="lds-circle">
+          <div className="lds-circle">
             <div></div>
           </div>
         )}

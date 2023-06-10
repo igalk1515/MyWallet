@@ -1,4 +1,4 @@
-const { MongoClient, ServerApiVersion } = require('mongodb');
+const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
 const bcrypt = require('bcrypt');
 
 require('dotenv').config();
@@ -40,6 +40,13 @@ class mongodb {
     const collection = this.client.db('Wallet').collection('users');
     const user = await collection.findOne({ userName });
     return user;
+  }
+
+  async updateOne(col, data) {
+    const { _id, ...updateData } = data;
+    const id = new ObjectId(_id);
+    const collection = this.client.db('Wallet').collection(col);
+    await collection.updateOne({ _id: id }, { $set: updateData });
   }
 }
 
