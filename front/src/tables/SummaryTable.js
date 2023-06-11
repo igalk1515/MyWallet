@@ -1,4 +1,6 @@
 import React from 'react';
+import editIcon from '../images/edit.png';
+import './summaryTable.css';
 
 export class SummaryTable extends React.Component {
   constructor(props) {
@@ -12,7 +14,6 @@ export class SummaryTable extends React.Component {
   }
 
   componentDidUpdate(prevProps) {
-    // Check if expenses have changed
     if (this.props.expenses !== prevProps.expenses) {
       this.setState({ data: this.props.expenses });
     }
@@ -61,7 +62,7 @@ export class SummaryTable extends React.Component {
                     this.props.editExpense(item);
                   }}
                 >
-                  עריכה
+                  <img src={editIcon} alt="edit" />
                 </button>
               </td>
             </tr>

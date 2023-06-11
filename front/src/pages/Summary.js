@@ -4,6 +4,7 @@ import { BackendApi } from '../BackendApi';
 import { PieChart } from '../charts/PieChart';
 import { SummaryTable } from '../tables/SummaryTable';
 import { Expense } from './Expense';
+import xIcon from '../images/close.png';
 
 export class Summary extends React.Component {
   month = [
@@ -79,7 +80,12 @@ export class Summary extends React.Component {
         {this.state.isOverlay && (
           <div className="overlay">
             <div className="overlay-content">
-              <button onClick={() => this.setState({ isOverlay: false })} />
+              <button
+                className="x-btn"
+                onClick={() => this.setState({ isOverlay: false })}
+              >
+                <img src={xIcon} alt="x" />
+              </button>
               <Expense
                 editItem={this.state.editItem}
                 closeOverlay={() => {

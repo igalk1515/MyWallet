@@ -68,3 +68,21 @@ input {
 .overlay-content {
   color: white;
 }
+
+x-btn {
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding: 1rem;
+  cursor: pointer;
+  background-color: transparent;
+}
+
+.x-btn img {
+  width: 10px;
+  height: 10px;
+}
+
+.x-btn:hover {
+  background-color: #eee;
+}
