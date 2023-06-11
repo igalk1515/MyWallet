@@ -34,7 +34,7 @@ export class Summary extends React.Component {
   }
 
   async componentDidMount() {
-    await this.fetchData();
+    await this.fetchData(new Date().getMonth() + 1);
   }
 
   async editExpense(item) {
@@ -43,11 +43,26 @@ export class Summary extends React.Component {
 
   async deleteExpense(item) {
     await this.api.deleteExpense(item._id);
-    await this.fetchData();
+    await this.fetchData(new Date().getMonth() + 1);
   }
 
-  async fetchData() {
-    const data = await this.api.getSummary(new Date().getMonth() + 1);
+  choseMonth() {
+    return (
+      <select
+        onChange={(event) => this.fetchData(event.target.value)}
+        defaultValue={new Date().getMonth() + 1}
+      >
+        {this.month.map((item, index) => (
+          <option key={index} value={index + 1}>
+            {item}
+          </option>
+        ))}
+      </select>
+    );
+  }
+
+  async fetchData(month) {
+    const data = await this.api.getSummary(month);
     const mapExpenses = new Map();
     data?.documents?.forEach((item) => {
       if (mapExpenses.has(item.name)) {
@@ -68,8 +83,8 @@ export class Summary extends React.Component {
         <h1>סיכום</h1>
         <div className="Table-summary">
           <h2 className="total">
-            {h2Message + this.month[new Date().getMonth()]}:{' '}
-            {this.state?.data?.total}
+            {h2Message} {this.choseMonth()}: {this.state?.data?.total}{' '}
+            {this.state?.data?.total > 0 ? '' : 0} ש"ח
           </h2>
         </div>
         {!this.state.showLabel && mapNames?.size > 0 && (
@@ -98,7 +113,7 @@ export class Summary extends React.Component {
                 }}
                 onSave={async () => {
                   this.setState({ isOverlay: false, editItem: null });
-                  await this.fetchData();
+                  await this.fetchData(new Date().getMonth() + 1);
                 }}
               />
             </div>
