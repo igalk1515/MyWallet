@@ -1,5 +1,6 @@
 import React from 'react';
 import editIcon from '../images/edit.png';
+import deleteIcon from '../images/delete.png';
 import './summaryTable.css';
 
 export class SummaryTable extends React.Component {
@@ -63,6 +64,14 @@ export class SummaryTable extends React.Component {
                   }}
                 >
                   <img src={editIcon} alt="edit" />
+                </button>
+                <button
+                  className="delete-btn"
+                  onClick={() => {
+                    this.props.deleteExpense(item);
+                  }}
+                >
+                  <img src={deleteIcon} alt="delete" />
                 </button>
               </td>
             </tr>

@@ -121,3 +121,9 @@ app.post('/income', (req, res) => {
   income.insertOne(data);
   res.send('ok');
 });
+
+app.delete('/expense', authenticate, (req, res) => {
+  const expense = new expnse(DB);
+  expense.deleteOne(req.query.id);
+  res.send('ok');
+});

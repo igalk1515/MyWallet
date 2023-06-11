@@ -48,6 +48,11 @@ class mongodb {
     const collection = this.client.db('Wallet').collection(col);
     await collection.updateOne({ _id: id }, { $set: updateData });
   }
+
+  async deleteOne(col, id) {
+    const collection = this.client.db('Wallet').collection(col);
+    await collection.deleteOne({ _id: new ObjectId(id) });
+  }
 }
 
 module.exports = mongodb;

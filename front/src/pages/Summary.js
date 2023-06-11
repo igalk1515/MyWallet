@@ -41,6 +41,11 @@ export class Summary extends React.Component {
     this.setState({ isOverlay: true, editItem: item });
   }
 
+  async deleteExpense(item) {
+    await this.api.deleteExpense(item._id);
+    await this.fetchData();
+  }
+
   async fetchData() {
     const data = await this.api.getSummary(new Date().getMonth() + 1);
     const mapExpenses = new Map();
@@ -104,6 +109,7 @@ export class Summary extends React.Component {
           <SummaryTable
             expenses={this.state?.data?.documents}
             editExpense={this.editExpense.bind(this)}
+            deleteExpense={this.deleteExpense.bind(this)}
           />
         ) : (
           <div className="lds-circle">

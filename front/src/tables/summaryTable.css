@@ -9,3 +9,23 @@
   width: 30px;
   height: 30px;
 }
+
+.edit-btn:hover {
+  cursor: pointer;
+}
+
+.delete-btn {
+  width: 100px;
+  height: 100px;
+  border: none;
+  background-color: transparent;
+}
+
+.delete-btn img {
+  width: 30px;
+  height: 30px;
+}
+
+.delete-btn:hover {
+  cursor: pointer;
+}

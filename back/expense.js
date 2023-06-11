@@ -8,6 +8,10 @@ class Expense {
   updateOne(data) {
     this.db.updateOne('expense', data);
   }
+
+  async deleteOne(id) {
+    await this.db.deleteOne('expense', id);
+  }
 }
 
 module.exports = Expense;

@@ -26,4 +26,14 @@ export class BackendApi {
     });
     return response.data;
   }
+
+  async deleteExpense(id) {
+    const response = await this.api.delete('/expense', {
+      params: {
+        id,
+      },
+      withCredentials: true,
+    });
+    return response.data;
+  }
 }
