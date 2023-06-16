@@ -54,7 +54,6 @@ export class Expense extends React.Component {
             name: '',
             date: new Date(),
             price: 0,
-            message: '',
             paymentMethod: 'אשראי',
             message: '',
           });
@@ -86,6 +85,7 @@ export class Expense extends React.Component {
           type="number"
           id="price"
           name="price"
+          min={0}
           value={this.state.price}
           onChange={(e) => this.setState({ price: e.target.value })}
         />
@@ -104,6 +104,7 @@ export class Expense extends React.Component {
         <textarea
           id="message"
           name="message"
+          value={this.state.message}
           onChange={(e) => this.setState({ message: e.target.value })}
         ></textarea>
         <button
