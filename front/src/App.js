@@ -42,12 +42,13 @@ function App() {
         <Breadcrumbs pathNames={pathNames} />
         <p>{userName ? `hello ${userName}` : 'please Login'}</p>
         <Routes>
+          <Route path="/" element={<HomePage />} />
           <Route path="/home" element={<HomePage />} />
           <Route path="/expense" element={<Expense />} />
           <Route path="/Summary" element={<Summary />} />
           <Route path="/register" element={<Register />} />
           <Route path="/login" element={<Login />} />
-          <Route path="/income" element={<Income />} />
+          {/* <Route path="/income" element={<Income />} /> */}
         </Routes>
       </header>
     </div>

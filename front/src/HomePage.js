@@ -13,11 +13,11 @@ export class HomePage extends React.Component {
           <Link to="/expense">
             <button className="expense-btn">הוצאה</button>
           </Link>
-          <div className="income">
+          {/* <div className="income">
             <Link to="Income">
               <button className="income-btn">הכנסה</button>
             </Link>
-          </div>
+          </div> */}
           <div className="summarry">
             <Link to="/summary">
               <button className="summarry-btn">סיכום</button>
