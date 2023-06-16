@@ -49,33 +49,64 @@ export class SummaryTable extends React.Component {
           </tr>
         </thead>
         <tbody>
-          {this.state.data?.map((item, index) => (
-            <tr key={item._id}>
-              <td>{item.date.split('T')[0]}</td>
-              <td>{item.name}</td>
-              <td>{item.price}</td>
-              <td>{item.paymentMethod}</td>
-              <td>{item.message}</td>
-              <td>
-                <button
-                  className="edit-btn"
-                  onClick={() => {
-                    this.props.editExpense(item);
-                  }}
-                >
-                  <img src={editIcon} alt="edit" />
-                </button>
-                <button
-                  className="delete-btn"
-                  onClick={() => {
-                    this.props.deleteExpense(item);
-                  }}
-                >
-                  <img src={deleteIcon} alt="delete" />
-                </button>
-              </td>
-            </tr>
-          ))}
+          {!this.props?.showLabel
+            ? this.state.data?.map((item, index) => (
+                <tr key={item._id}>
+                  <td>{item.date.split('T')[0]}</td>
+                  <td>{item.name}</td>
+                  <td>{item.price}</td>
+                  <td>{item.paymentMethod}</td>
+                  <td>{item.message}</td>
+                  <td>
+                    <button
+                      className="edit-btn"
+                      onClick={() => {
+                        this.props.editExpense(item);
+                      }}
+                    >
+                      <img src={editIcon} alt="edit" />
+                    </button>
+                    <button
+                      className="delete-btn"
+                      onClick={() => {
+                        this.props.deleteExpense(item);
+                      }}
+                    >
+                      <img src={deleteIcon} alt="delete" />
+                    </button>
+                  </td>
+                </tr>
+              ))
+            : this.state.data?.map(
+                (item, index) =>
+                  this.props.showLabel === item.name && (
+                    <tr key={item._id}>
+                      <td>{item.date.split('T')[0]}</td>
+                      <td>{item.name}</td>
+                      <td>{item.price}</td>
+                      <td>{item.paymentMethod}</td>
+                      <td>{item.message}</td>
+                      <td>
+                        <button
+                          className="edit-btn"
+                          onClick={() => {
+                            this.props.editExpense(item);
+                          }}
+                        >
+                          <img src={editIcon} alt="edit" />
+                        </button>
+                        <button
+                          className="delete-btn"
+                          onClick={() => {
+                            this.props.deleteExpense(item);
+                          }}
+                        >
+                          <img src={deleteIcon} alt="delete" />
+                        </button>
+                      </td>
+                    </tr>
+                  )
+              )}
         </tbody>
       </table>
     );

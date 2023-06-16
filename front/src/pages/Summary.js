@@ -78,6 +78,9 @@ export class Summary extends React.Component {
     const h2Message =
       this.state?.data?.total > 0 ? 'סה"כ הוצאות לחודש ' : 'אין הוצאות לחודש ';
     const mapNames = this.state.mapExpenses;
+    console.log(this.state.showLabel);
+    console.log('isOverlay', this.state.isOverlay);
+    console.log('isReady', this.state.isReady);
     return (
       <div className="expense-form">
         <h1>סיכום</h1>
@@ -125,6 +128,7 @@ export class Summary extends React.Component {
             expenses={this.state?.data?.documents}
             editExpense={this.editExpense.bind(this)}
             deleteExpense={this.deleteExpense.bind(this)}
+            showLabel={this.state.showLabel}
           />
         ) : (
           <div className="lds-circle">
